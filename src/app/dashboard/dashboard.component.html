@@ -1,0 +1,233 @@
+<app-navbar></app-navbar>
+<div class="content-body">
+
+  <div class="container-fluid mt-3">
+    <div class="row">
+      <div class="col-lg-3 col-sm-6">
+        <div class="card gradient-1">
+          <div class="card-body">
+            <h3 class="card-title text-white">Regular Notes</h3>
+            <div class="d-inline-block">
+              <h1 class="text-white">{{countsOfIndividualNotes[0].count}}</h1>
+            </div>
+            <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <div class="card gradient-2">
+          <div class="card-body">
+            <h3 class="card-title text-white">Reminders</h3>
+            <div class="d-inline-block">
+              <h1 class="text-white">{{countsOfIndividualNotes[1].count}}</h1>
+            </div>
+            <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <div class="card gradient-3">
+          <div class="card-body">
+            <h3 class="card-title text-white">To Do</h3>
+            <div class="d-inline-block">
+              <h1 class="text-white">{{countsOfIndividualNotes[2].count}}</h1>
+            </div>
+            <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-6">
+        <div class="card gradient-4">
+          <div class="card-body">
+            <h3 class="card-title text-white">Bookmarks</h3>
+            <div class="d-inline-block">
+              <h1 class="text-white">{{countsOfIndividualNotes[3].count}}</h1>
+            </div>
+            <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-6 col-md-6">
+        <div class="card">
+          <div class="card-body px-0">
+            <h4 class="card-title">{{tasksTitle}} 
+                <button *ngIf="taskType != 1" (click)="GetTasksForDayWeekMonth(1)" style="float: right;" class="btn btn-primary">Today</button>
+             
+                <button *ngIf="taskType != 2" (click)="GetTasksForDayWeekMonth(2)" style="float: right;" class="btn btn-primary">This week</button>
+             &nbsp;   <button *ngIf="taskType != 3" (click)="GetTasksForDayWeekMonth(3)" style="float: right;" class="btn btn-success">This month</button></h4>
+            <div class="todo-list">
+              <div class="tdl-holder">
+                <div class="tdl-content">
+                  <ul id="todo_list">
+                    <li *ngFor = "let task of tasks">
+                        <label>
+                            <input (click)="onChangeTaskStatus(task.id)" *ngIf="task.taskStatus == 0" type="checkbox"><i></i>
+                            
+                            <input *ngIf="task.taskStatus == 1" disabled checked type="checkbox"><i></i>
+                            <span>{{task.text}}</span>
+                            <span>{{task.dueDate}}</span>
+                        </label>
+                    </li>
+                    
+                   </ul>
+
+                </div>
+                
+              </div>
+              
+            </div>
+            
+          </div>
+          <div style="padding: 20px;" class="row">
+            <div class="col-5">
+                <input [(ngModel)]="taskText" type="text" class="form-control" placeholder="Write task'...">
+          
+            </div>
+            <div class="col-5">
+                
+          <input  [(ngModel)]="taskDueDate" type="date" class="form-control"  placeholder="Due Date">
+            </div>
+            <div class="col-2">
+                <button (click)='onSaveTask()' class="btn btn-success">Save</button>
+            </div>
+        </div>
+        </div>
+        
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">{{reminderTitle}} 
+                <button *ngIf="reminderType != 1" (click)="GetRemindersForToday()" style="float: right;" class="btn btn-primary">Today</button>
+             
+                <button *ngIf="reminderType != 2" (click)="getRemindersForThisWeek()" style="float: right;" class="btn btn-primary">This week</button>
+             &nbsp;   <button *ngIf="reminderType != 3" (click)="getRemindersForThisMonth()" style="float: right;" class="btn btn-success">This month</button></h4>
+            <div class="active-member">
+              <div class="table-responsive">
+                <table class="table table-xs mb-0">
+                  <thead>
+                    <tr>
+                      <th scope="col">Sl.</th>
+                      <th scope="col">Text</th>
+                      <th scope="col">Reminder DateTime</th>
+                      <th scope="col">Post Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let note of reminders;let i = index">
+                      <td>{{i + 1}}</td>
+                      <td>{{note.text}}</td>
+                      <td>{{note.reminderDateTime}}</td>
+                      <td>{{note.makeDate}}</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div style="padding: 20px;" class="row">
+            <div class="col-5">
+                <input [(ngModel)]="reminderText" type="text" class="form-control" placeholder="Enter Reminder...">
+          
+            </div>
+            <div class="col-5">
+                
+          <input  [(ngModel)]="reminderDateTime" type="Date" class="form-control"  placeholder="Reminder Date">
+            </div>
+            <div class="col-2">
+                <button (click)='onSaveReminder()' class="btn btn-success">Save</button>
+            </div>
+        </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Regular Notes</h4>
+            <div class="active-member">
+              <div class="table-responsive">
+                <table class="table table-xs mb-0">
+                  <thead>
+                    <tr>
+                      <th scope="col">Sl.</th>
+                      <th scope="col">Text</th>
+                      <th scope="col">Date & Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let note of regularNotes;let i = index">
+                      <td>{{i + 1}}</td>
+                      <td>{{note.text}}</td>
+                      <td>{{note.makeDate}}</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div style="padding: 20px;" class="row">
+            <div class="col-10">
+                <input [(ngModel)]="regularNoteText" type="text" class="form-control" placeholder="Enter Note...">
+          
+            </div>
+            <div class="col-2">
+                <button (click)='onSaveRegularNote()' class="btn btn-success">Save</button>
+            </div>
+        </div>
+        </div>
+
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Bookmarks</h4>
+            <div class="active-member">
+              <div class="table-responsive">
+                <table class="table table-xs mb-0">
+                  <thead>
+                    <tr>
+                      <th scope="col">Sl.</th>
+                      <th scope="col">Web URL</th>
+                      <th scope="col">Date & Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let note of bookmarks;let i = index">
+                      <td>{{i + 1}}</td>
+                      <td style="color: #1f79ad;"><a [href]="note.webURL">{{note.webURL}}</a></td>
+                      <td>{{note.makeDate}}</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div style="padding: 20px;" class="row">
+            <div class="col-10">
+                <input [(ngModel)]="bookmarkWebURL" type="text" class="form-control" placeholder="Enter Bookmark...">
+          
+            </div>
+            <div class="col-2">
+                <button (click)='onSaveBookmark()' class="btn btn-success">Save</button>
+            </div>
+        </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+</div>
+<app-footer></app-footer>
