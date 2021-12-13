@@ -36,6 +36,7 @@ export class AuthService {
   public setUserInfo(data:any) {
       debugger
       var user = {
+        userId:data.userId,
           name:data.userName,
           email:data.email,
           dob:data.dateOfBirth

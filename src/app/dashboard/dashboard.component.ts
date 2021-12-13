@@ -27,6 +27,7 @@ export class DashboardComponent implements OnInit {
 
   note: any = {
     id: null,
+    userId:null,
     type: '',
     text: '',
     reminderDateTime: '',
@@ -35,6 +36,8 @@ export class DashboardComponent implements OnInit {
     webURL: '',
     makeDate: '',
   };
+
+  userId:any = null;
 
   countsOfIndividualNotes: any = null;
 
@@ -46,7 +49,16 @@ export class DashboardComponent implements OnInit {
     this.GetTasksForDayWeekMonth(1);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    debugger
+    this.regularNotes = null;
+  this.reminders = null;
+  this.tasks = null;
+  this.bookmarks = null;
+    var use:any = localStorage.getItem('user');
+    var user:any = JSON.parse(use)
+    this.userId = user.userId;
+  }
 
   onSaveTask() {
     
@@ -56,6 +68,7 @@ export class DashboardComponent implements OnInit {
       this.taskText = null;
       return;
     }
+    this.note.userId = this.userId;
     this.note.text = this.taskText;
     this.note.dueDate = this.taskDueDate;
     this.note.type = 3;
@@ -89,6 +102,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onSaveBookmark() {
+    this.note.userId = this.userId;
     this.note.webURL = this.bookmarkWebURL;
     this.note.type = 4;
     this.NoteService.onSaveNotes(this.note).subscribe(
@@ -119,13 +133,14 @@ export class DashboardComponent implements OnInit {
     );
   }
   onSaveRegularNote() {
-    
+    debugger
     var textCharecterCount = this.regularNoteText.length;
     if(textCharecterCount > 100){
       alert("Note text is more than 100 characters!!")
       this.regularNoteText = null;
       return;
     }
+    this.note.userId = this.userId;
     this.note.text = this.regularNoteText;
     this.note.type = 1;
     this.NoteService.onSaveNotes(this.note).subscribe(
@@ -163,6 +178,7 @@ export class DashboardComponent implements OnInit {
       this.reminderText = null;
       return;
     }
+    this.note.userId = this.userId;
     this.note.text = this.reminderText;
     this.note.reminderDateTime = this.reminderDateTime;
     this.note.type = 2;

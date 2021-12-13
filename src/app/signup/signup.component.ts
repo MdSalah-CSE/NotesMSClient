@@ -10,7 +10,10 @@ import { AuthService } from '../Services/auth.service';
 })
 export class SignupComponent implements OnInit {
 
-  currentUser:User={
+  confirmPassword:any = null;
+  isPassMatched:boolean = false;
+  isPassMorethan5:boolean = false;
+  currentUser:any={
     id:null,
     name:'',
     email:'',
@@ -22,9 +25,34 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onPassword(){
+    if(this.currentUser.password.length > 5){
+      this.isPassMorethan5 = true;
+    }else{
+      this.isPassMorethan5 = false;
+    }
+  }
+
+  onConfirmPassword(){
+    debugger
+    if(this.currentUser.password.length > 5 && this.currentUser.password == this.confirmPassword){
+      this.isPassMatched = true;
+    }else{
+      this.isPassMatched = false;
+    }
+  }
+
 
   signup(){
     if (this.currentUser.email != '' && this.currentUser.password != '') {
+      if(this.currentUser.password.length <= 5){
+        alert("Password should be more atleast character")
+        return;
+      }
+      if(this.isPassMatched == false){
+        alert("Password doesn't match")
+        return;
+      }
       debugger
       this.authService.signup(this.currentUser).subscribe(
 
